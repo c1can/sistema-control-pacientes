@@ -311,6 +311,28 @@ void eliminarPaciente(std::vector<Paciente>& pacientes, const std::string& ident
 
 //fin funciones opcion 3
 
+//funciones opcion 4
+void desplegarReporteGeneral(const std::vector<Paciente>& pacientes) {
+    std::cout << "----REPORTE GENERAL DE PACIENTES----\n";
+    for (const Paciente& paciente : pacientes) {
+
+        if(paciente.activo == true){
+            std::cout << "DPI: " << paciente.numeroIdentificacion << "\n";
+            std::cout << "Nombre: " << paciente.nombreCompleto << "\n";
+            std::cout << "Edad: " << paciente.edad << "\n";
+            std::cout << "Genero: " << paciente.genero << "\n";
+            std::cout << "Direccion: " << paciente.direccion << "\n";
+            std::cout << "Celular: " << paciente.numeroCelular << "\n";
+            std::cout << "Fecha de Ingreso: " << paciente.fechaIngreso << "\n";
+            std::cout << "Diagnostico: " << paciente.diagnostico << "\n";
+            std::cout << "-------------------------------\n";
+        }else {
+            std::cout << "Paciente eliminado\n";
+            std::cout << "-------------------------------\n";
+        }
+    }
+}
+
 
 int main() {
   //estructura de datos original
@@ -372,9 +394,10 @@ int main() {
       eliminarPaciente(pacientes, id);
 
     }else if(opcion == 4) {
-      std::cout<<"OPCION 4\n";
+      desplegarReporteGeneral(pacientes);
+
     }else if(opcion == 5) {
-      std::cout<<"OPCION 5\n";
+      //DescargarReporteGeneral(pacientes);
     }
   }while(opcion != 6);
 };
