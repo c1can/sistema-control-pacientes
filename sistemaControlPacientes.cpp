@@ -193,7 +193,10 @@ int main() {
       agregarPaciente(pacientes, dpi, nombre, edad, genero, direccion, numero, fechaIngreso, diagnostico);
 
     }else if(opcion == 2) {
-      std::cout<<"OPCION 2\n";
+      std::string id;
+      std::cout<<"Ingrese el DPI del paciente a modificar: \n";
+      id = validarIdentificacion();
+
     }else if(opcion == 3) {
       std::cout<<"OPCION 3\n";
     }else if(opcion == 4) {
