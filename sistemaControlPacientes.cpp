@@ -66,19 +66,21 @@ std::string validarNombre() {
     }
     return nombre;
 }
-std::string validarEdad() {
-    std::string edad;
-    while (true) {
-        std::getline(std::cin, edad);
 
-        if (edad.length() < 1 || edad.length() > 3) {
-            std::cout << "Ingrese una edad valida (1-3 digitos): ";
+int validarEdad() {
+    int edad;
+    while (true) {
+        std::cin >> edad;
+
+        if (edad < 18 || edad > 120) {
+            std::cout << "Ingrese una edad valida (18-120): ";
         } else {
             break;
         }
     }
     return edad;
 }
+
 std::string validarGenero() {
     std::string genero;
     while (true) {
@@ -176,7 +178,7 @@ int main() {
       std::cout<<"Ingrese su nombre completo: \n";
       nombre = validarNombre();
       std::cout<<"Ingrese su edad: \n";
-      std::cin>>edad;
+      edad = validarEdad();
       std::cout<<"Ingrese su genero M/F: \n";
       genero = validarGenero();
       std::cout<<"Ingrese su direccion: \n";
