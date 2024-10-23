@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 
 struct Paciente {
     std::string numeroIdentificacion;
@@ -14,12 +15,37 @@ struct Paciente {
 
   };
 
+  //---funciones principales del sistema---
+
+  void guardarPacienteEnArchivo(const Paciente& paciente) {
+    std::ofstream archivo("pacientes.txt", std::ios::app); // Abre el archivo en modo append (adición)
+    
+    if (archivo.is_open()) {
+        archivo << "DPI: " << paciente.numeroIdentificacion << "\n";
+        archivo << "Nombre: " << paciente.nombreCompleto << "\n";
+        archivo << "Edad: " << paciente.edad << "\n";
+        archivo << "Género: " << paciente.genero << "\n";
+        archivo << "Dirección: " << paciente.direccion << "\n";
+        archivo << "Celular: " << paciente.numeroCelular << "\n";
+        archivo << "Fecha de Ingreso: " << paciente.fechaIngreso << "\n";
+        archivo << "Diagnóstico: " << paciente.diagnostico << "\n";
+        archivo << "-------------------------------\n"; 
+        archivo.close(); 
+        std::cout << "Paciente guardado en el archivo con éxito.\n";
+    } else {
+        std::cerr << "No se pudo abrir el archivo para guardar los pacientes.\n";
+    }
+}
+
   void agregarPaciente(std::vector<Paciente> & pacientes, std::string identificacion, std::string nombre, int edad, std::string genero, std::string direccion, std::string numero, std::string fecha, std::string diagnostico) {
       Paciente nuevoPaciente = {identificacion, nombre, edad, genero, direccion, numero, fecha, diagnostico};
       
     pacientes.push_back(nuevoPaciente);
     std::cout<<"Se ingreso un nuevo paciente: \n";
+
+    guardarPacienteEnArchivo(nuevoPaciente);
   };
+
 
 //---validacione menu principal---
 int validarOpcion() {
@@ -149,7 +175,9 @@ std::string validarDiagnostico() {
     }
     return diagnostico;
 }
+
 //----fin validaciones opcion 1----- 
+
 
 int main() {
   //estructura de datos original
