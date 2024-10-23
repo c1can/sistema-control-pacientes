@@ -12,7 +12,7 @@ struct Paciente {
     std::string numeroCelular;
     std::string fechaIngreso;
     std::string diagnostico;
-
+    bool activo;
   };
 
   //---funciones principales del sistema---
@@ -59,16 +59,17 @@ struct Paciente {
         archivo << "Celular: " << paciente.numeroCelular << "\n";
         archivo << "Fecha de Ingreso: " << paciente.fechaIngreso << "\n";
         archivo << "Diagnóstico: " << paciente.diagnostico << "\n";
+        archivo << "Activo: " << paciente.activo << "\n";
         archivo << "-------------------------------\n"; 
         archivo.close(); 
-        std::cout << "Paciente guardado en el archivo con éxito.\n";
+        std::cout << "Paciente guardado en el archivo con exito.\n";
     } else {
         std::cerr << "No se pudo abrir el archivo para guardar los pacientes.\n";
     }
 }
 
   void agregarPaciente(std::vector<Paciente> & pacientes, std::string identificacion, std::string nombre, int edad, std::string genero, std::string direccion, std::string numero, std::string fecha, std::string diagnostico) {
-      Paciente nuevoPaciente = {identificacion, nombre, edad, genero, direccion, numero, fecha, diagnostico};
+      Paciente nuevoPaciente = {identificacion, nombre, edad, genero, direccion, numero, fecha, diagnostico, true};
       
     pacientes.push_back(nuevoPaciente);
     std::cout<<"Se ingreso un nuevo paciente: \n";
