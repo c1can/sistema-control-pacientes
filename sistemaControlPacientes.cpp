@@ -17,6 +17,36 @@ struct Paciente {
 
   //---funciones principales del sistema---
 
+  void cargarPacientesDesdeBaseDeDatos(std::vector<Paciente>& pacientes) {
+    std::ifstream archivo("pacientes.txt");
+    if (archivo.is_open()) {
+        Paciente paciente;
+        std::string linea;
+        while (std::getline(archivo, linea)) {
+            if (linea.find("DPI: ") != std::string::npos) {
+                paciente.numeroIdentificacion = linea.substr(5);
+            } else if (linea.find("Nombre: ") != std::string::npos) {
+                paciente.nombreCompleto = linea.substr(8);
+            } else if (linea.find("Edad: ") != std::string::npos) {
+                paciente.edad = std::stoi(linea.substr(6));
+            } else if (linea.find("Género: ") != std::string::npos) {
+                paciente.genero = linea.substr(8);
+            } else if (linea.find("Dirección: ") != std::string::npos) {
+                paciente.direccion = linea.substr(11);
+            } else if (linea.find("Celular: ") != std::string::npos) {
+                paciente.numeroCelular = std::stoi(linea.substr(9));
+            } else if (linea.find("Fecha de Ingreso: ") != std::string::npos) {
+                paciente.fechaIngreso = linea.substr(17);
+            } else if (linea.find("Diagnóstico: ") != std::string::npos) {
+                paciente.diagnostico = linea.substr(13);
+            } else if (linea.find("-------------------------------") != std::string::npos) {
+                pacientes.push_back(paciente);
+            }
+        }
+        archivo.close();
+    }
+}
+
   void guardarPacienteEnArchivo(const Paciente& paciente) {
     std::ofstream archivo("pacientes.txt", std::ios::app); // Abre el archivo en modo append (adición)
     
@@ -182,6 +212,8 @@ std::string validarDiagnostico() {
 int main() {
   //estructura de datos original
   std::vector<Paciente> pacientes;
+  //la idea de está funcion es que inicialize el vector pacientes con los datos que se encuentran en el archivo pacientes.txt
+  cargarPacientesDesdeBaseDeDatos(pacientes);
 
   int opcion;
 
@@ -224,6 +256,7 @@ int main() {
       std::string id;
       std::cout<<"Ingrese el DPI del paciente a modificar: \n";
       id = validarIdentificacion();
+      //modificarPaciente 
 
     }else if(opcion == 3) {
       std::cout<<"OPCION 3\n";
