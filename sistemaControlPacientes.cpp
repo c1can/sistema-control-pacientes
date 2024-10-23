@@ -209,6 +209,85 @@ std::string validarDiagnostico() {
 //----fin validaciones opcion 1----- 
 
 
+//funciones opcion 2
+void guardarPacientesEnArchivo(const std::vector<Paciente>& pacientes) {
+    std::ofstream archivo("pacientes.txt", std::ios::trunc); // Abre el archivo en modo truncar para sobrescribir
+    if (archivo.is_open()) {
+        for (const Paciente& paciente : pacientes) {
+            archivo << "DPI: " << paciente.numeroIdentificacion << "\n";
+            archivo << "Nombre: " << paciente.nombreCompleto << "\n";
+            archivo << "Edad: " << paciente.edad << "\n";
+            archivo << "Género: " << paciente.genero << "\n";
+            archivo << "Dirección: " << paciente.direccion << "\n";
+            archivo << "Celular: " << paciente.numeroCelular << "\n";
+            archivo << "Fecha de Ingreso: " << paciente.fechaIngreso << "\n";
+            archivo << "Diagnóstico: " << paciente.diagnostico << "\n";
+            archivo << "-------------------------------\n";
+        }
+        archivo.close();
+    } else {
+        std::cerr << "Error al abrir el archivo para guardar los pacientes.\n";
+    }
+}
+
+void modificarPaciente(std::vector<Paciente>& pacientes, const std::string& identificacion) {
+    bool encontrado = false;
+    for (Paciente& paciente : pacientes) {
+        if (paciente.numeroIdentificacion == identificacion) {
+            encontrado = true;
+
+            // Modificar los datos del paciente
+            std::cout << "Modificando paciente con DPI: " << identificacion << "\n";
+            std::cout << "Ingrese el nuevo nombre completo: ";
+            std::string nuevoNombre;
+            nuevoNombre = validarNombre();
+            paciente.nombreCompleto = nuevoNombre;
+
+            std::cout << "Ingrese la nueva edad: ";
+            int nuevaEdad;
+            nuevaEdad = validarEdad();
+            paciente.edad = nuevaEdad;
+
+            std::cout << "Ingrese el nuevo genero: ";
+            std::string nuevoGenero;
+            nuevoGenero = validarGenero();
+            paciente.genero = nuevoGenero;
+
+            std::cout << "Ingrese la nueva direccion: ";
+            std::string nuevaDireccion;
+            nuevaDireccion = validarDireccion();
+            paciente.direccion = nuevaDireccion;
+
+            std::cout << "Ingrese el nuevo numero de celular: ";
+            std::string nuevoNumero;
+            nuevoNumero = validarNumero();
+            paciente.numeroCelular = nuevoNumero;
+
+            std::cout << "Ingrese la nueva fecha de ingreso: ";
+            std::string nuevaFecha;
+            nuevaFecha = validarFecha();
+            paciente.fechaIngreso = nuevaFecha;
+
+            std::cout << "Ingrese el nuevo diagnostico: ";
+            std::string nuevoDiagnostico;
+            nuevoDiagnostico = validarDiagnostico();
+            paciente.diagnostico = nuevoDiagnostico;
+
+            // Guardar los pacientes actualizados en el archivo
+            guardarPacientesEnArchivo(pacientes);
+            std::cout << "Paciente modificado con exito!.\n";
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        std::cout << "Paciente con DPI " << identificacion << " no encontrado.\n";
+    }
+}
+
+//fin funciones opcion 2
+
+
 int main() {
   //estructura de datos original
   std::vector<Paciente> pacientes;
@@ -254,9 +333,11 @@ int main() {
 
     }else if(opcion == 2) {
       std::string id;
+
       std::cout<<"Ingrese el DPI del paciente a modificar: \n";
       id = validarIdentificacion();
-      //modificarPaciente 
+
+      modificarPaciente(pacientes, id);
 
     }else if(opcion == 3) {
       std::cout<<"OPCION 3\n";
