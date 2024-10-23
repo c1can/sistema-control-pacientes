@@ -223,6 +223,7 @@ void guardarPacientesEnArchivo(const std::vector<Paciente>& pacientes) {
             archivo << "Celular: " << paciente.numeroCelular << "\n";
             archivo << "Fecha de Ingreso: " << paciente.fechaIngreso << "\n";
             archivo << "Diagnóstico: " << paciente.diagnostico << "\n";
+            archivo << "Activo: " << paciente.activo << "\n";
             archivo << "-------------------------------\n";
         }
         archivo.close();
@@ -289,6 +290,28 @@ void modificarPaciente(std::vector<Paciente>& pacientes, const std::string& iden
 //fin funciones opcion 2
 
 
+//funciones opcion 3
+
+void eliminarPaciente(std::vector<Paciente>& pacientes, const std::string& identificacion) {
+    bool encontrado = false;
+    for (Paciente& paciente : pacientes) {
+        if (paciente.numeroIdentificacion == identificacion) {
+            encontrado = true;
+            paciente.activo = false;
+            guardarPacientesEnArchivo(pacientes);
+            std::cout << "Paciente eliminado con exito.\n";
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        std::cout << "Paciente con DPI " << identificacion << " no encontrado.\n";
+    }
+}
+
+//fin funciones opcion 3
+
+
 int main() {
   //estructura de datos original
   std::vector<Paciente> pacientes;
@@ -341,7 +364,13 @@ int main() {
       modificarPaciente(pacientes, id);
 
     }else if(opcion == 3) {
-      std::cout<<"OPCION 3\n";
+      std::string id;
+
+      std::cout<<"Ingrese el DPI del paciente a eliminar: \n";
+      id = validarIdentificacion();
+
+      eliminarPaciente(pacientes, id);
+
     }else if(opcion == 4) {
       std::cout<<"OPCION 4\n";
     }else if(opcion == 5) {
