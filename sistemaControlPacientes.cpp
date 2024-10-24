@@ -34,11 +34,13 @@ struct Paciente {
             } else if (linea.find("Dirección: ") != std::string::npos) {
                 paciente.direccion = linea.substr(11);
             } else if (linea.find("Celular: ") != std::string::npos) {
-                paciente.numeroCelular = std::stoi(linea.substr(9));
+                paciente.numeroCelular = linea.substr(9);
             } else if (linea.find("Fecha de Ingreso: ") != std::string::npos) {
                 paciente.fechaIngreso = linea.substr(17);
             } else if (linea.find("Diagnóstico: ") != std::string::npos) {
                 paciente.diagnostico = linea.substr(13);
+            } else if (linea.find("Activo: ") != std::string::npos) {
+                paciente.activo = (linea.substr(8) == "1");
             } else if (linea.find("-------------------------------") != std::string::npos) {
                 pacientes.push_back(paciente);
             }
@@ -316,7 +318,7 @@ void desplegarReporteGeneral(const std::vector<Paciente>& pacientes) {
     std::cout << "----REPORTE GENERAL DE PACIENTES----\n";
     for (const Paciente& paciente : pacientes) {
 
-        if(paciente.activo == true){
+        if(paciente.activo){
             std::cout << "DPI: " << paciente.numeroIdentificacion << "\n";
             std::cout << "Nombre: " << paciente.nombreCompleto << "\n";
             std::cout << "Edad: " << paciente.edad << "\n";
@@ -327,7 +329,7 @@ void desplegarReporteGeneral(const std::vector<Paciente>& pacientes) {
             std::cout << "Diagnostico: " << paciente.diagnostico << "\n";
             std::cout << "-------------------------------\n";
         }else {
-            std::cout << "Paciente eliminado\n";
+            std::cout << "El paciente con DPI: " << paciente.numeroIdentificacion << " ha sido eliminado de la lista principal.\n";
             std::cout << "-------------------------------\n";
         }
     }
