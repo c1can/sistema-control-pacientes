@@ -1,7 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <iomanip>
+#include <sstream>
 #include <fstream>
+#include <hpdf.h>
+
 
 struct Paciente {
     std::string numeroIdentificacion;
@@ -14,6 +18,73 @@ struct Paciente {
     std::string diagnostico;
     bool activo;
   };
+
+void generarReportePacientesPDF(const std::vector<Paciente>& pacientes) {
+    // Crear un nuevo documento PDF
+    HPDF_Doc pdf = HPDF_New(NULL, NULL);
+    if (!pdf) {
+        std::cerr << "Error al crear el PDF." << std::endl;
+        return;
+    }
+
+    // Crear una nueva página
+    HPDF_Page page = HPDF_AddPage(pdf);
+    HPDF_Page_SetSize(page, HPDF_PAGE_SIZE_A4, HPDF_PAGE_PORTRAIT);
+
+    // Establecer la fuente y el tamaño
+    HPDF_Font font = HPDF_GetFont(pdf, "Helvetica", NULL);
+    HPDF_Page_SetFontAndSize(page, font, 12);
+
+    // Escribir el encabezado
+    HPDF_Page_BeginText(page);
+    HPDF_Page_MoveTextPos(page, 50, 750); // Posicionar el texto en la página
+    HPDF_Page_ShowText(page, "REPORTE GENERAL DE PACIENTES ACTIVOS");
+    HPDF_Page_MoveTextPos(page, 0, -30); // Mover la posición del texto hacia abajo
+
+    bool hayPacientesActivos = false;
+
+    // Iterar sobre los pacientes y agregar solo los activos
+    for (const Paciente& paciente : pacientes) {
+        if (paciente.activo) {
+            hayPacientesActivos = true;
+
+            // Crear una lista de los datos del paciente, cada línea se agrega por separado
+            std::vector<std::string> infoPaciente = {
+                "DPI: " + paciente.numeroIdentificacion,
+                "Nombre: " + paciente.nombreCompleto,
+                "Edad: " + std::to_string(paciente.edad),
+                "Genero: " + paciente.genero,
+                "Direccion: " + paciente.direccion,
+                "Celular: " + paciente.numeroCelular,
+                "Fecha Ingreso: " + paciente.fechaIngreso,
+                "Diagnostico: " + paciente.diagnostico
+            };
+
+            // Mostrar cada línea de información del paciente en el PDF
+            for (const std::string& linea : infoPaciente) {
+                HPDF_Page_ShowText(page, linea.c_str());
+                HPDF_Page_MoveTextPos(page, 0, -20); // Mover hacia abajo para la siguiente línea
+            }
+
+            // Espacio entre pacientes
+            HPDF_Page_MoveTextPos(page, 0, -20);
+        }
+    }
+
+    if (!hayPacientesActivos) {
+        HPDF_Page_ShowText(page, "No hay pacientes activos en este momento.");
+    }
+
+    HPDF_Page_EndText(page);
+
+    // Guardar el archivo en disco
+    HPDF_SaveToFile(pdf, "reporte_pacientes.pdf");
+
+    // Limpiar memoria
+    HPDF_Free(pdf);
+
+    std::cout << "Reporte generado exitosamente: reporte_pacientes.pdf" << std::endl;
+}
 
   //---funciones principales del sistema---
 
@@ -399,7 +470,7 @@ int main() {
       desplegarReporteGeneral(pacientes);
 
     }else if(opcion == 5) {
-      //DescargarReporteGeneral(pacientes);
+      generarReportePacientesPDF(pacientes);
     }
   }while(opcion != 6);
 };
