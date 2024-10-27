@@ -56,3 +56,23 @@ Clonar este repositorio
 ```bash
  ./test
 ```
+
+## Capturas de pantalla
+
+A continuacion se muestran algunas capturas de pantalla de algunas de las funcionalidades del programa.
+
+Menu Principal:
+El menu Principal cuenta con 6 opciones de las cuales siempre se mostraran en bucle hasta que el usuario ingrese la tecla no. 6.
+
+![Menu Principal](https://github.com/c1can/sistema-control-pacientes/blob/main/capturas/Captura%20de%20pantalla%202024-10-27%20004434.png)
+
+Reporte general de los pacientes:
+Se muestra un breve reporte general de los pacientes donde se itera sobre el vector original donde se almacenan todos los pacientes y se mostraran media vez su propiedad activo se encuentre un true de lo contrario aparecera una referencia al usuario eliminado con su DPI.
+
+![Reporte general de los pacientes](https://github.com/c1can/sistema-control-pacientes/blob/main/capturas/Captura%20de%20pantalla%202024-10-27%20005640.png)
+
+
+Descarga del reporte general de los pacientes:
+Se descargara un archivo PDF con el formato presentado en la captura de la pantalla, solo se mostraran los pacientes que tengan la propiedad activo a true.
+
+![Descargar reporte general de los pacientes](https://github.com/c1can/sistema-control-pacientes/blob/main/capturas/Captura%20de%20pantalla%202024-10-27%20005803.png)
